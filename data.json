@@ -1,4 +1,5 @@
 {
-"AAPL": [{ "timestamp": 1681008000000, "open": 150, "high": 155, "low": 148, "close": 154, "volume": 120000 }],
-"GOOGL": [{ "timestamp": 1681008000000, "open": 2800, "high": 2825, "low": 2780, "close": 2810, "volume": 80000 }],
-"MSFT": [{ "timestamp": 1681008000000, "open": 300, "high": 310, "low": 295, "close": 305, "volume": 100000 }]}
+"AAPL": [ "timestamp": 1681008000000, "open": 150, "high": 155, "low": 148, "close": 154, "volume": 120000 ],
+"GOOGL": [ "timestamp": 1681008000000, "open": 2800, "high": 2825, "low": 2780, "close": 2810, "volume": 80000 ],
+"MSFT": [ "timestamp": 1681008000000, "open": 300, "high": 310, "low": 295, "close": 305, "volume": 100000 ]
+}
