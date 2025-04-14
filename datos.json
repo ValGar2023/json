@@ -1,5 +1,4 @@
-{
-    "series": [
+"series": [
         {
             "name": "Series 1",
             "data": [
@@ -35,4 +34,3 @@
             ]
         }
     ]
-}
