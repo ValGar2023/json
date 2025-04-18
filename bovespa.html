@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OHLC Data from Bovespa</title>
+</head>
+<body>
+  <h1>Bovespa OHLCV</h1>
+
+  <label for="tickerSelect">Choose a ticker:</label>
+  <select id="tickerSelect">
+    <option value="PETR4.SA">PETR4 (Petrobras)</option>
+    <option value="VALE3.SA">VALE3 (Vale)</option>
+    <option value="ITUB4.SA">ITUB4 (Itaú Unibanco)</option>
+    <option value="BBDC4.SA">BBDC4 (Bradesco)</option>
+    <option value="ABEV3.SA">ABEV3 (Ambev)</option>
+  </select>
+
+  <pre id="output">Loading...</pre>
+
+  <script>
+    const output = document.getElementById('output');
+    const tickerSelect = document.getElementById('tickerSelect');
+
+    async function fetchOHLCData(ticker) {
+      const url = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol=${ticker}&region=BR`;
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'a113a2f925msh82b626e1289873dp196424jsnaf795c11fd73',
+          'X-RapidAPI-Host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
+        }
+      };
+
+      output.textContent = 'Loading...';
+
+      try {
+        const res = await fetch(url, options);
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(`HTTP ${res.status}: ${errorText}`);
+        }
+
+        const data = await res.json();
+        const prices = data.prices?.filter(p => p.type !== 'DIVIDEND');
+
+        if (!prices || prices.length === 0) {
+          output.textContent = 'No data available for this ticker.';
+          return;
+        }
+
+        const lines = prices.map(day => {
+          const date = new Date(day.date * 1000).toISOString().split('T')[0];
+          return `${date}: O:${day.open} H:${day.high} L:${day.low} C:${day.close} V:${day.volume}`;
+        });
+
+        output.textContent = lines.join('\n');
+      } catch (error) {
+        output.textContent = 'Failed to fetch data: ' + error.message;
+        console.error(error);
+      }
+    }
+
+    tickerSelect.addEventListener('change', () => {
+      fetchOHLCData(tickerSelect.value);
+    });
+
+    // Initial load
+    fetchOHLCData(tickerSelect.value);
+  </script>
+</body>
+</html>
